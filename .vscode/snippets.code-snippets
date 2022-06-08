@@ -1,0 +1,37 @@
+{
+	"require": {
+		"scope": "javascript,typescript",
+		"prefix": "req",
+		"body": [
+			"const $1 = require('$2')$0"
+		],
+		"description": "require"
+	},
+	"module exports": {
+		"scope": "javascript,typescript",
+		"prefix": "me",
+		"body": [
+			"module.exports = $0"
+		],
+		"description": "module exports"
+	},
+	"chakra styles": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "chakra",
+		"body": [
+			"const Styled$1 = chakra('div', {",
+			"  baseStyle: {",
+			"    $2",
+			"  }",
+			"})",
+		],
+		"description": "module exports"
+	},
+	"useState": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "useState",
+		"body": [
+			"const [$1, set$1] = useState($2)$0"
+		],
+	},
+}
