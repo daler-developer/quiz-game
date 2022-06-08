@@ -2,12 +2,21 @@ const { Types } = require('mongoose')
 const QuizModel = require("../../../models/QuizModel")
 const errors = require('../../../utils/errors')
 
-module.exports = async (parent, { page }, ctx) => {
+module.exports = async (parent, { page, search }, ctx) => {
   const currentUser = ctx.user
 
   const itemsPerPage = 2
+  
+  const $match = {}
+
+  if (search) {
+    $match.name = { $regex: new RegExp(search, 'i') }
+  }
 
   const quizes = await QuizModel.aggregate([
+    {
+      $match
+    },
     {
       $lookup: {
         as: 'creators', localField: 'creatorId', foreignField: '_id', from: 'users'

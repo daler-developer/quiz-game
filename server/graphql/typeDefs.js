@@ -53,7 +53,7 @@ module.exports = gql`
     getMe: User!
     getUser(_id: String!): User!
     getUsers: [User!]!
-    getQuizes(page: Int = 1): QuizWithNumPages!
+    getQuizes(page: Int = 1, search: String): QuizWithNumPages!
     getQuiz(_id: String!): Quiz!
   }
 
