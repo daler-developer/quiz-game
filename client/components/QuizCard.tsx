@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import * as mutations from '../graphql/mutations'
+import useIncrementQuizNumTries from "../hooks/useIncrementQuizNumTries"
 
 export interface IQuizQuestionOption {
   text: string
@@ -16,6 +17,7 @@ export interface IQuiz {
   name: string
   preview: string
   isLikedByCurrentUser: boolean
+  numTries: number
   questions: Array<{
     text: string
     options: Array<IQuizQuestionOption>
@@ -30,14 +32,37 @@ export default ({ quiz }: IProps) => {
   const [likeQuiz] = useMutation(mutations.LIKE_QUIZ)
   const [removeQuizLike] = useMutation(mutations.REMOVE_QUIZ_LIK)
   const [deleteQuiz] = useMutation(mutations.DELETE_QUIZ)
+  const [incrementNumTries] = useIncrementQuizNumTries()
 
   const client = useApolloClient()
 
   const router = useRouter()
 
   const handlers = {
-    solveQuizBtnClick() {
+    async solveQuizBtnClick() {
       router.push('/solve/' +  quiz._id)
+      await incrementNumTries({ variables: { quizId: quiz._id } })
+
+      client.writeQuery({
+        query: gql`
+          query Increment($_id: String!) {
+            getQuiz(_id: $_id) {
+              _id
+              numTries
+            }
+          }
+        `,
+        data: {
+          getQuiz: {
+            _id: quiz._id,
+            __typename: 'Quiz',
+            numTries: quiz.numTries + 1            
+          }
+        },
+        variables: {
+          _id: quiz._id
+        }
+      })
     },
     async deleteQuizBtnClick() {
       await deleteQuiz({ variables: { quizId: quiz._id } })
@@ -121,17 +146,19 @@ export default ({ quiz }: IProps) => {
         />
       </Box>
 
-      {
-        quiz.isLikedByCurrentUser ? (
-          <Box sx={{ marginTop: '10px' }}>
+
+      <Box sx={{ marginTop: '10px' }}>
+        {
+          quiz.isLikedByCurrentUser ? (
             <IconButton onClick={handlers.removeQuizLikeBtnClick} aria-label='like quiz' variant='ghost' icon={<Icon boxSize='30px' color='red.400' as={AiFillHeart} />} />
-          </Box>
-        ) : (
-          <Box sx={{ marginTop: '10px' }}>
+          ) : (
             <IconButton onClick={handlers.likeQuizBtnClick} aria-label='like quiz' variant='ghost' icon={<Icon boxSize='30px' as={AiOutlineHeart} />} />
-          </Box>
-        )
-      }
+          )
+        }
+        <StyledNumTries>
+          Total tries: {quiz.numTries}
+        </StyledNumTries>
+      </Box>
 
       <Box sx={{ marginTop: '10px' }}>
         <Button sx={{ width: '100%' }} size='sm' colorScheme='yellow' onClick={handlers.solveQuizBtnClick}>
@@ -148,5 +175,11 @@ const StyledHeader = chakra('header', {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
+  }
+})
+
+const StyledNumTries = chakra(Text, {
+  baseStyle: {
+    color: 'grey'
   }
 })

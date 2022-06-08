@@ -10,6 +10,7 @@ const deleteQuizResolver = require("./mutations/deleteQuizResolver")
 const GraphQLUpload = require('graphql-upload/GraphQLUpload.js')
 const likeQuizResolver = require("./mutations/likeQuizResolver")
 const removeQuizLikeResolver = require("./mutations/removeQuizLikeResolver")
+const incrementQuizNumTries = require("./mutations/incrementQuizNumTries")
 
 module.exports = {
   Upload: GraphQLUpload,
@@ -27,5 +28,6 @@ module.exports = {
     deleteQuiz: deleteQuizResolver,
     likeQuiz: likeQuizResolver,
     removeQuizLike: removeQuizLikeResolver,
+    incrementQuizNumTries: incrementQuizNumTries,
   }
 }

@@ -30,6 +30,10 @@ const quizSchema = new Schema({
   likes: {
     type: [Schema.Types.ObjectId],
     default: () => []
+  },
+  numTries: {
+    type: Number,
+    default: () => 0
   }
 }, { versionKey: false, collection: 'quizes' })
 

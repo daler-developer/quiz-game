@@ -40,6 +40,7 @@ module.exports = gql`
     name: String!
     creator: User!
     questions: [Question!]!
+    numTries: Int!
     isLikedByCurrentUser: Boolean!
   }
 
@@ -63,6 +64,7 @@ module.exports = gql`
     deleteQuiz(quizId: String!): String!
     likeQuiz(quizId: String!): String!
     removeQuizLike(quizId: String!): String
+    incrementQuizNumTries(quizId: String!): Int
   }
 
 `

@@ -17,6 +17,7 @@ export const GET_QUIZES = gql`
         name
         preview
         isLikedByCurrentUser
+        numTries
       }
       numPages
     }

@@ -41,3 +41,9 @@ export const DELETE_QUIZ = gql`
     deleteQuiz(quizId: $quizId) 
   }
 `
+
+export const INCREMENT_QUIZ_NUM_TRIES = gql`
+  mutation IncrementQuizNumTries($quizId: String!) {
+    incrementQuizNumTries(quizId: $quizId)
+  }
+` 
