@@ -5,8 +5,8 @@ import { IQuiz } from "../models"
 interface IData {
   getQuizes: {
     quizes: Array<IQuiz>
+    numPages: number
   }
-  numPages: number
 }
 
 interface IVariables {

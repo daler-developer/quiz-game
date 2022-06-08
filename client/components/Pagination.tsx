@@ -4,9 +4,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 interface IProps {
   onNextBtnClick: Function
   onPrevBtnClick: Function
+  hasNext: boolean
+  hasPrev: boolean
 }
 
-export default ({ onPrevBtnClick, onNextBtnClick }: IProps) => {
+export default ({ onPrevBtnClick, onNextBtnClick, hasNext, hasPrev }: IProps) => {
   return (
     <StyledWrapper>
 
@@ -15,6 +17,7 @@ export default ({ onPrevBtnClick, onNextBtnClick }: IProps) => {
         colorScheme='blue'
         icon={<ChevronLeftIcon fontSize='30px' />}
         onClick={onPrevBtnClick}
+        isDisabled={!hasPrev}
       />
 
       <IconButton
@@ -22,6 +25,7 @@ export default ({ onPrevBtnClick, onNextBtnClick }: IProps) => {
         colorScheme='blue'
         icon={<ChevronRightIcon fontSize='30px' />}
         onClick={onNextBtnClick}
+        isDisabled={!hasNext}
       />
 
     </StyledWrapper>

@@ -1,25 +1,28 @@
-import { Box, Button, chakra, Input, SimpleGrid, Spinner } from '@chakra-ui/react'
-import { useQuery, NetworkStatus } from '@apollo/client'
-import * as queries from '../../graphql/queries'
+import { Box, chakra, Input, SimpleGrid, Spinner } from '@chakra-ui/react'
 import QuizCard from '../../components/QuizCard'
 import Layout from '../../components/Layout'
 import Pagination from '../../components/Pagination'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { IQuiz } from '../../models'
 import useQuizesQuery from '../../hooks/useQuizesQuery'
-
-interface IGetQuizesVariables {
-  page: number
-}
 
 const Home = () => {
   const [searchInputValue, setSearchInputValue] = useState('')
 
-  useEffect(() => {
-    
-  }, [searchInputValue])
-
   const quizesQuery = useQuizesQuery()
+
+  const currentPage = quizesQuery.variables?.page
+  const totalPages = quizesQuery.data?.getQuizes.numPages
+
+  const hasNextPage = useMemo(() => {
+    if ( currentPage && totalPages) {
+      return currentPage < totalPages
+    } else {
+      return false
+    }
+  }, [currentPage, totalPages])
+
+  const hasPrevPage = useMemo(() => currentPage !== 1, [currentPage, totalPages])
 
   const handlers = {
     nextBtnClick() {
@@ -45,6 +48,8 @@ const Home = () => {
             <Pagination
               onPrevBtnClick={handlers.prevBtnClick}
               onNextBtnClick={handlers.nextBtnClick}
+              hasNext={hasNextPage}
+              hasPrev={hasPrevPage}
             />
           </StyledTopBar>
           
