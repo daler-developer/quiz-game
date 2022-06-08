@@ -1,10 +1,12 @@
 import { Box, Button, chakra, Input, SimpleGrid, Spinner } from '@chakra-ui/react'
 import { useQuery, NetworkStatus } from '@apollo/client'
 import * as queries from '../../graphql/queries'
-import QuizCard, { IQuiz } from '../../components/QuizCard'
+import QuizCard from '../../components/QuizCard'
 import Layout from '../../components/Layout'
 import Pagination from '../../components/Pagination'
 import { useEffect, useState } from 'react'
+import { IQuiz } from '../../models'
+import useQuizesQuery from '../../hooks/useQuizesQuery'
 
 interface IGetQuizesVariables {
   page: number
@@ -17,11 +19,7 @@ const Home = () => {
     
   }, [searchInputValue])
 
-  const quizesQuery = useQuery<any, IGetQuizesVariables>(queries.GET_QUIZES, {
-    variables: {
-      page: 1
-    }
-  })
+  const quizesQuery = useQuizesQuery()
 
   const handlers = {
     nextBtnClick() {

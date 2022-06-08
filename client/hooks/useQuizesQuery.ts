@@ -3,17 +3,20 @@ import * as queries from '../graphql/queries'
 import { IQuiz } from "../models"
 
 interface IData {
-  getQuiz: IQuiz
+  getQuizes: {
+    quizes: Array<IQuiz>
+  }
+  numPages: number
 }
 
 interface IVariables {
-  _id: string
+  page: number
 }
 
-export default (quizId: string) => {
-  const query = useQuery<IData, IVariables>(queries.GET_QUIZ, {
+export default () => {
+  const query = useQuery<IData, IVariables>(queries.GET_QUIZES, {
     variables: {
-      _id: quizId
+      page: 1
     }
   })
 

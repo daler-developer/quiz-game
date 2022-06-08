@@ -6,23 +6,7 @@ import { useRouter } from "next/router"
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import * as mutations from '../graphql/mutations'
 import useIncrementQuizNumTries from "../hooks/useIncrementQuizNumTries"
-
-export interface IQuizQuestionOption {
-  text: string
-  isCorrect: boolean
-}
-
-export interface IQuiz {
-  _id: string
-  name: string
-  preview: string
-  isLikedByCurrentUser: boolean
-  numTries: number
-  questions: Array<{
-    text: string
-    options: Array<IQuizQuestionOption>
-  }>
-}
+import { IQuiz } from "../models"
 
 interface IProps {
   quiz: IQuiz
