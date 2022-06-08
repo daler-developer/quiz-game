@@ -2,20 +2,30 @@ import { Box, chakra, Input, SimpleGrid, Spinner } from '@chakra-ui/react'
 import QuizCard from '../../components/QuizCard'
 import Layout from '../../components/Layout'
 import Pagination from '../../components/Pagination'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { IQuiz } from '../../models'
 import useQuizesQuery from '../../hooks/useQuizesQuery'
 
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1)
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const quizesQuery = useQuizesQuery()
+  
+  useEffect(() => {
+    const variables = { page: currentPage } as any
 
-  const currentPage = quizesQuery.variables?.page
+    if (searchInputValue.trim()) {
+      variables.search = searchInputValue.trim()
+    }
+
+    quizesQuery.refetch(variables)
+  }, [searchInputValue, currentPage])
+
   const totalPages = quizesQuery.data?.getQuizes.numPages
 
   const hasNextPage = useMemo(() => {
-    if ( currentPage && totalPages) {
+    if (currentPage && totalPages) {
       return currentPage < totalPages
     } else {
       return false
@@ -26,10 +36,12 @@ const Home = () => {
 
   const handlers = {
     nextBtnClick() {
-      quizesQuery.refetch({ page: quizesQuery.variables!.page + 1 })
+      setCurrentPage((prev) => prev + 1)
+      // quizesQuery.refetch({ page: quizesQuery.variables!.page + 1 })
     },
     prevBtnClick() {
-      quizesQuery.refetch({ page: quizesQuery.variables!.page - 1 })
+      setCurrentPage((prev) => prev - 1)
+      // quizesQuery.refetch({ page: quizesQuery.variables!.page - 1 })
     },
   }
 

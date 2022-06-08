@@ -11,6 +11,7 @@ interface IData {
 
 interface IVariables {
   page: number
+  search?: string
 }
 
 export default () => {

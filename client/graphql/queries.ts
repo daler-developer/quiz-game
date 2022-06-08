@@ -10,8 +10,8 @@ export const GET_ME = gql`
 `
 
 export const GET_QUIZES = gql`
-  query GetQuizes($page: Int) {
-    getQuizes(page: $page) {
+  query GetQuizes($page: Int, $search: String) {
+    getQuizes(page: $page, search: $search) {
       quizes {
         _id
         name
