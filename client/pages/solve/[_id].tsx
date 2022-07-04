@@ -48,8 +48,8 @@ export default () => {
   }, [progressValue])
 
   const handlers = {
-    optionBtnClick(e: SyntheticEvent, option: IQuizQuestionOption) {
-      if (option.isCorrect) {
+    optionBtnClick(e: SyntheticEvent, index: number) {
+      if (index === currentQuestion?.correctOptionIndex) {
         setNumCorrectAnswers(numCorrectAnswers + 1)
       }
       nextQuestion()
@@ -104,8 +104,8 @@ export default () => {
             <VStack mt='20px' spacing='2px' align='stretch' sx={{ width: '300px' }}>
               {
                 currentQuestion!.options.map((option, i) => (
-                  <Button key={i} variant='outline' colorScheme='teal' onClick={(e) => handlers.optionBtnClick(e, option)}>
-                    {option.text}
+                  <Button key={i} variant='outline' colorScheme='teal' onClick={(e) => handlers.optionBtnClick(e, i)}>
+                    {option}
                   </Button>
                 ))
               }

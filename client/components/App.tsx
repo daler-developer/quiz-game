@@ -1,27 +1,17 @@
 import { useEffect, useLayoutEffect, useState } from "react"
 import FullScreenLoader from './FullScreenLoader'
-import useGetMeQuery from "../hooks/useGetMeQuery"
 import useGetMeLazyQuery from "../hooks/useGetMeLazyQuery"
+import { useRouter } from "next/router"
+import useGetMeQuery from "../hooks/useGetMeQuery"
 
 interface IProps {
   children: any
 }
 
 export default ({ children }: IProps) => {
-  const [isFullScreenVisible, setIsFullScreenVisible] = useState(true)
+  const getMeQuery = useGetMeQuery()
 
-  const [getMe] = useGetMeLazyQuery()
-
-  useEffect(() => {
-    (async () => {
-      if (localStorage.getItem('auth-token')) {
-        await getMe()
-      }
-      setIsFullScreenVisible(false)
-    })()
-  }, [])
-
-  if (isFullScreenVisible) {
+  if (getMeQuery.loading) {
     return <FullScreenLoader />
   }
 

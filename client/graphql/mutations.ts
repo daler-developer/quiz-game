@@ -24,13 +24,22 @@ export const LOGIN = gql`
   }
 `
 
+export const CREATE_QUIZ = gql`
+  mutation CreateQuiz($name: String!, $questions: [QuestionInput!]!, $file: Upload!) {
+    createQuiz(name: $name, questions: $questions, file: $file) {
+      _id
+      name
+    }
+  }
+`
+
 export const LIKE_QUIZ = gql`
   mutation LikeQuiz($quizId: String!) {
     likeQuiz(quizId: $quizId)
   }
 `
 
-export const REMOVE_QUIZ_LIK = gql`
+export const REMOVE_QUIZ_LIKE = gql`
   mutation RemoveQuizLike($quizId: String!) {
     removeQuizLike(quizId: $quizId)
   }

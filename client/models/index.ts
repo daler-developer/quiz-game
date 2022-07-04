@@ -14,9 +14,11 @@ export interface IQuiz {
   name: string
   preview: string
   isLikedByCurrentUser: boolean
+  isCreatedByCurrentUser: boolean
   numTries: number
   questions: Array<{
     text: string
-    options: Array<IQuizQuestionOption>
+    options: Array<string>
+    correctOptionIndex: number
   }>
 }

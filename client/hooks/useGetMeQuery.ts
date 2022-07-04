@@ -6,10 +6,16 @@ interface IData {
   getMe: IUser
 }
 
-interface IVariables {}
+interface IVariables {
+  token
+}
 
 export default () => {
-  const query = useQuery<IData, IVariables>(queries.GET_ME)
+  const query = useQuery<IData, IVariables>(queries.GET_ME, {
+    variables: {
+
+    }
+  })
 
   return query
 }

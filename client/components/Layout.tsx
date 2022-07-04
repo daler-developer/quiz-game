@@ -1,4 +1,5 @@
-import { Box, Container } from "@chakra-ui/react"
+import { Box, chakra } from "@chakra-ui/react"
+import Container from "./Container"
 import Header from "./Header"
 
 interface IProps {
@@ -7,11 +8,17 @@ interface IProps {
 
 export default ({ children }: IProps) => {
   return <>
-    <Box paddingTop={70}>
+    <StyledWrapper paddingTop={70}>
       <Header />
-      <Container maxW='1200px' paddingInline='15px'>
+      <Container>
         {children}
       </Container>
-    </Box>
+    </StyledWrapper>
   </>
 }
+
+const StyledWrapper = chakra('div', {
+  baseStyle: {
+    pt: '70px'
+  }
+})

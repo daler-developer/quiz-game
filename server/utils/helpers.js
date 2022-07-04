@@ -7,3 +7,7 @@ module.exports.generateAuthToken = (userId) => {
 module.exports.decodeAuthToken = (token) => {
   return jwt.decode(token, 'jwt-secret')
 }
+
+module.exports.generateQuizPreviewPath = (name) => {
+  return `/uploads/${name}`
+}

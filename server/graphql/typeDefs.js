@@ -4,14 +4,10 @@ module.exports = gql`
 
   scalar Upload
 
-  input OptionInput {
-    text: String!
-    isCorrect: Boolean!
-  }
-
   input QuestionInput {
     text: String!
-    options: [OptionInput!]!
+    options: [String!]!
+    correctOptionIndex: Int!
   }
 
   type User {
@@ -31,7 +27,8 @@ module.exports = gql`
 
   type Question {
     text: String!
-    options: [QuestionOption!]!
+    options: [String!]!
+    correctOptionIndex: Int!
   }
 
   type Quiz {
@@ -42,6 +39,7 @@ module.exports = gql`
     questions: [Question!]!
     numTries: Int!
     isLikedByCurrentUser: Boolean!
+    isCreatedByCurrentUser: Boolean!
   }
 
   type QuizWithNumPages {
@@ -60,11 +58,10 @@ module.exports = gql`
   type Mutation {
     register(username: String!, password: String!): UserWithToken!
     login(username: String!, password: String!): UserWithToken!
-    createQuiz(name: String!, questions: [QuestionInput!]! file: Upload): Quiz! 
+    createQuiz(name: String!, questions: [QuestionInput!]! file: Upload!): Quiz! 
     deleteQuiz(quizId: String!): String!
     likeQuiz(quizId: String!): String!
     removeQuizLike(quizId: String!): String
     incrementQuizNumTries(quizId: String!): Int
   }
-
 `

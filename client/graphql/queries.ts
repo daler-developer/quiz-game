@@ -17,6 +17,7 @@ export const GET_QUIZES = gql`
         name
         preview
         isLikedByCurrentUser
+        isCreatedByCurrentUser
         numTries
       }
       numPages
@@ -29,10 +30,8 @@ export const GET_QUIZ = gql`
     getQuiz(_id: $_id) {
       questions {
         text
-        options {
-          text
-          isCorrect
-        }
+        options
+        correctOptionIndex
       }
     }
   }

@@ -16,6 +16,7 @@ interface IVariables {
 
 export default () => {
   const query = useQuery<IData, IVariables>(queries.GET_QUIZES, {
+    notifyOnNetworkStatusChange: true,
     variables: {
       page: 1
     }

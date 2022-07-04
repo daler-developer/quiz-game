@@ -1,6 +1,7 @@
 import { AddIcon } from "@chakra-ui/icons"
 import { Box, Button, chakra, Container, Link, Text } from "@chakra-ui/react"
 import NextLink from 'next/link'
+import { useRouter } from "next/router"
 import { currentVisibleModal, ModalsEnum } from "../graphql/state"
 import useGetMeQuery from "../hooks/useGetMeQuery"
 import useIsLoggedIn from "../hooks/useIsLoggedIn"
@@ -10,16 +11,13 @@ export default () => {
 
   const { data } = useGetMeQuery()
 
-  console.log(data)
-
-  const handlers = {
-    newQuizBtnClick() {
-      currentVisibleModal(ModalsEnum.CREATE_QUIZ)
-    },
-    logoutBtnClick() {
-      localStorage.removeItem('auth-token')
-      location.reload()
-    }
+  const handleNewQuizBtnClick = () => {
+    currentVisibleModal(ModalsEnum.CREATE_QUIZ)
+  }
+  
+  const handleLogoutBtnClick = () => {
+    localStorage.removeItem('auth-token')
+    location.reload()
   }
 
   return (
@@ -35,44 +33,38 @@ export default () => {
                 </StyledUsername>
               ) : <>
                 <NextLink href={'/auth?tab=login'} passHref>
-                  <Link color='teal.500'>
+                  <Button color='teal.500' variant="ghost" size="sm">
                     Login
-                  </Link>
+                  </Button>
                 </NextLink>
 
                 <NextLink href={'/auth?tab=register'} passHref>
-                  <Link color='teal.500'>
+                  <Button color='teal.500' variant="ghost" size="sm">
                     Register
-                  </Link>
+                  </Button>
                 </NextLink>
               </>
             }
           </StyledHeaderLeft>
 
           <StyledHeaderRight>
-            <NextLink href='/home' passHref>
-              <Link color='teal.500'>
-                Home
-              </Link>
-            </NextLink>
-
-            <NextLink href='/history' passHref>
-              <Link color='teal.500'>
-                History
-              </Link>
-            </NextLink>
 
             {
-              isLoggedIn && (
-                <Button size='sm' colorScheme='red' variant='ghost' onClick={handlers.logoutBtnClick}>
+              isLoggedIn && <>
+                <NextLink href='/home' passHref>
+                  <Button size="sm" variant="ghost" color='teal.500'>
+                    Home
+                  </Button>
+                </NextLink>
+                <Button size='sm' colorScheme='red' variant='ghost' onClick={handleLogoutBtnClick}>
                   Logout
                 </Button>
-              )
+                <Button leftIcon={<AddIcon />} size='sm' colorScheme='pink' variant='solid' onClick={handleNewQuizBtnClick}>
+                  Quiz
+                </Button>
+              </>
             }
 
-            <Button leftIcon={<AddIcon />} size='sm' colorScheme='pink' variant='solid' onClick={handlers.newQuizBtnClick}>
-              Quiz
-            </Button>
           </StyledHeaderRight>
 
         </StyledBody>

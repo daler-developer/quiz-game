@@ -26,6 +26,7 @@ module.exports = async (parent, { page, search }, ctx) => {
       $addFields: {
         creator: { $first: '$creators' },
         isLikedByCurrentUser: { $in: [currentUser._id, '$likes'] },
+        isCreatedByCurrentUser: { $eq: [currentUser._id, '$creatorId'] }
       }
     },
     {
