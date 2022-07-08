@@ -2,7 +2,7 @@
 
 Welcome to Quiz Game app! 👋
  
-![This is an image](/preview.png)
+![This is an image](/preview.jpg)
 
 ## Stack
  - Front-end: [React](https://reactjs.org/) / [TypeScript](https://www.typescriptlang.org/),  [GraphQL](https://graphql.org/) / [Next.js](https://sass-lang.com/)
