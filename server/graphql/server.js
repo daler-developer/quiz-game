@@ -14,20 +14,21 @@ module.exports = new ApolloServer({
 
     if (authorization) {
       const token = authorization.split(' ')[1]
-  
-      const decoded = decodeAuthToken(token)
-  
-      const user = await UserModel.findById(decoded.userId)
-  
-      if (user) {
-        ctx.user = user
-      }
+      
+      try {
+        const decoded = decodeAuthToken(token)
+        
+        const user = await UserModel.findById(decoded.userId)
+        if (user) {
+          ctx.user = user
+        }
+      } catch {}
     }
 
     return ctx
   },
   formatError(err) {
-    return err
+    return err.originalError.message
   },
   csrfPrevention: false,
 })

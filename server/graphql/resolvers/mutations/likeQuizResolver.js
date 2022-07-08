@@ -5,11 +5,12 @@ const errors = require('../../../utils/errors')
 module.exports = async (parent, { quizId }, ctx) => {
   const currentUser = ctx.user
 
-  quizId = new Types.ObjectId(quizId)
-
+  
   if (!currentUser) {
-    throw new errors.NotAuthenticated()
+    throw new errors.NotAuthenticatedError()
   }
+
+  quizId = new Types.ObjectId(quizId)
 
   await QuizModel.updateOne({ _id: quizId }, {
     $push: {
@@ -17,5 +18,5 @@ module.exports = async (parent, { quizId }, ctx) => {
     }
   })
 
-  return 'good'
+  return 'liked'
 }

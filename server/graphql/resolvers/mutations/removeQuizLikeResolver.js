@@ -6,7 +6,7 @@ module.exports = async (parent, { quizId }, ctx) => {
   const currentUser = ctx.user
 
   if (!currentUser) {
-    throw new errors.NotAuthenticated()
+    throw new errors.NotAuthenticatedError()
   }
 
   quizId = new Types.ObjectId(quizId)
@@ -17,5 +17,5 @@ module.exports = async (parent, { quizId }, ctx) => {
     }
   })
 
-  return 'good'
+  return 'removed'
 }

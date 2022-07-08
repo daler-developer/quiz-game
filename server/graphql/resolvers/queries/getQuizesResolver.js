@@ -5,7 +5,7 @@ const errors = require('../../../utils/errors')
 module.exports = async (parent, { page, search }, ctx) => {
   const currentUser = ctx.user
 
-  const itemsPerPage = 2
+  const itemsPerPage = 8
   
   const $match = {}
 

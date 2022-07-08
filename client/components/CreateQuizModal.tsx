@@ -20,7 +20,7 @@ export default () => {
   const [isQuestionFormOpen, setIsQuestionFormOpen] = useState(false)
   const [questionsFormInitialValues, setQuestionsFormInitialValues] = useState<IQuestionFormValues | null>(null)
   const [questionFormQuestionIndex, setQuestionFormQuestionIndex] = useState<number | null>(null)
-  const [clickedSubmitBtn, setClickedSubmitBtn] = useState<>(false)
+  const [clickedSubmitBtn, setClickedSubmitBtn] = useState(false)
 
   const isOpen = useReactiveVar(currentVisibleModal) === ModalsEnum.CREATE_QUIZ
 
@@ -41,7 +41,7 @@ export default () => {
       file: null
     },
     validationSchema: yup.object().shape({
-      name: yup.string().required('required').min(2, 'min 2').max(30, 'max 30'),
+      name: yup.string().required('required').min(1, 'min 1').max(20, 'max 20'),
       file: yup.mixed().required('Should upload preview')
     }),
     validate(v) {
@@ -55,10 +55,10 @@ export default () => {
     },
     async onSubmit(v) {
       await createQuiz({ variables: v })
+
+      currentVisibleModal(null)
     }
   })
-
-  // console.log(form.errors)
 
   const previewUrl = useMemo(() => form.values.file ? URL.createObjectURL(form.values.file) : null, [form.values.file])
 

@@ -1,5 +1,6 @@
-import { Box, chakra } from "@chakra-ui/react"
+import { chakra } from "@chakra-ui/react"
 import Container from "./Container"
+import ErrorAlert from "./ErrorAlert"
 import Header from "./Header"
 
 interface IProps {
@@ -10,6 +11,7 @@ export default ({ children }: IProps) => {
   return <>
     <StyledWrapper paddingTop={70}>
       <Header />
+      <ErrorAlert />
       <Container>
         {children}
       </Container>

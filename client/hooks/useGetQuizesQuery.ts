@@ -11,14 +11,15 @@ interface IData {
 
 interface IVariables {
   page: number
-  search?: string
+  search: string
 }
 
 export default () => {
   const query = useQuery<IData, IVariables>(queries.GET_QUIZES, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      page: 1
+      page: 1,
+      search: ''
     }
   })
 

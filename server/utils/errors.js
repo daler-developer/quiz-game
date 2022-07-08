@@ -1,6 +1,18 @@
 const { ApolloError } = require('apollo-server-express')
 
-module.exports.NotAuthenticated = class extends ApolloError {
+module.exports.ValidationError = class extends ApolloError {
+  constructor() {
+    super('ValidationError error')
+  }
+}
+
+module.exports.NotAuthenticatedError = class extends ApolloError {
+  constructor() {
+    super('Not authenticated')
+  }
+}
+
+module.exports.NotAuthenticatedError = class extends ApolloError {
   constructor() {
     super('Not authenticated')
   }
@@ -25,6 +37,18 @@ module.exports.IncorrectPassword = class extends ApolloError {
 }
 
 module.exports.QuizNotFound = class extends ApolloError {
+  constructor() {
+    super('Quiz was not found')
+  }
+}
+
+module.exports.ForbiddenToDeleteQuizError = class extends ApolloError {
+  constructor() {
+    super('Forbidden to delete quiz')
+  }
+}
+
+module.exports.QuizNotFoundError = class extends ApolloError {
   constructor() {
     super('Quiz was not found')
   }

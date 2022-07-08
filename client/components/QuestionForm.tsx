@@ -27,8 +27,8 @@ export default memo(({ onCreateQuestion, onCancel, onUpdateQuestion, questionInd
       correctOptionIndex: 0
     },
     validationSchema: yup.object().shape({
-      text: yup.string().required('required').min(2, 'min 2').max(30, 'max 30'),
-      options: yup.array().of(yup.string().required('required').min(1, 'min 1').max(30, 'max 30')),
+      text: yup.string().required('required').min(1, 'min 1').max(20, 'max 20'),
+      options: yup.array().of(yup.string().required('required').min(1, 'min 1').max(20, 'max 20')),
       correctOptionIndex: yup.number().required('required').min(0)
     }),
     onSubmit(v) {

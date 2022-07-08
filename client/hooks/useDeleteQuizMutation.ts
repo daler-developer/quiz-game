@@ -6,9 +6,7 @@ interface IVariables {
 }
 
 export default () => {
-  const [mutate, info] = useMutation<string, IVariables>(mutations.DELETE_QUIZ, {
-
-  })
+  const [mutate, info] = useMutation<string, IVariables>(mutations.DELETE_QUIZ)
 
   const client = useApolloClient()
 

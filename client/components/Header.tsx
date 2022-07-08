@@ -1,7 +1,6 @@
 import { AddIcon } from "@chakra-ui/icons"
 import { Box, Button, chakra, Container, Link, Text } from "@chakra-ui/react"
 import NextLink from 'next/link'
-import { useRouter } from "next/router"
 import { currentVisibleModal, ModalsEnum } from "../graphql/state"
 import useGetMeQuery from "../hooks/useGetMeQuery"
 import useIsLoggedIn from "../hooks/useIsLoggedIn"

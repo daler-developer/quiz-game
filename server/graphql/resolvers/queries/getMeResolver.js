@@ -5,5 +5,5 @@ module.exports = async (_, {}, ctx) => {
     return ctx.user
   }
 
-  throw new errors.NotAuthenticated()
+  throw new errors.NotAuthenticatedError()
 }

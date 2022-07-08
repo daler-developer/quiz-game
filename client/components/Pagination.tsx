@@ -1,4 +1,4 @@
-import { chakra, IconButton } from "@chakra-ui/react"
+import { Box, chakra, IconButton } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 interface IProps {
@@ -6,35 +6,31 @@ interface IProps {
   onPrevBtnClick: Function
   hasNext: boolean
   hasPrev: boolean
+  sx?: object
 }
 
-export default ({ onPrevBtnClick, onNextBtnClick, hasNext, hasPrev }: IProps) => {
+export default ({ onPrevBtnClick, onNextBtnClick, hasPrev, hasNext, sx }: IProps) => {
   return (
-    <StyledWrapper>
+    <Box sx={{ display: 'flex', columnGap: '3px', ...sx }} role="pagination">
 
       <IconButton
         aria-label='left'
         colorScheme='blue'
         icon={<ChevronLeftIcon fontSize='30px' />}
-        onClick={onPrevBtnClick}
+        onClick={onPrevBtnClick as any}
         isDisabled={!hasPrev}
+        role="pagination-prev-btn"
       />
 
       <IconButton
         aria-label='right'
         colorScheme='blue'
         icon={<ChevronRightIcon fontSize='30px' />}
-        onClick={onNextBtnClick}
+        onClick={onNextBtnClick as any}
         isDisabled={!hasNext}
+        role="pagination-next-btn"
       />
 
-    </StyledWrapper>
+    </Box>
   )
 }
-
-const StyledWrapper = chakra('div', {
-  baseStyle: {
-    display: 'flex',
-    columnGap: '3px'
-  }
-})

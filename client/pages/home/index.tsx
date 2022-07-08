@@ -1,10 +1,10 @@
-import { Box, chakra, Input, SimpleGrid, Spinner } from '@chakra-ui/react'
+import { Box, Button, chakra, Input, SimpleGrid, Spinner, Text } from '@chakra-ui/react'
 import QuizCard from '../../components/QuizCard'
 import Layout from '../../components/Layout'
 import Pagination from '../../components/Pagination'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { IQuiz } from '../../models'
-import useQuizesQuery from '../../hooks/useQuizesQuery'
+import useQuizesQuery from '../../hooks/useGetQuizesQuery'
 import AuthProtected from '../../components/AuthProtected'
 
 const Home = () => {
@@ -14,13 +14,7 @@ const Home = () => {
   const quizesQuery = useQuizesQuery()
   
   useEffect(() => {
-    const variables = { page: currentPage } as any
-
-    if (searchInputValue.trim()) {
-      variables.search = searchInputValue.trim()
-    }
-    
-    quizesQuery.refetch(variables)
+    refetchQuizes()
   }, [searchInputValue, currentPage])
 
   const totalPages = quizesQuery.data?.getQuizes.numPages
@@ -35,6 +29,15 @@ const Home = () => {
 
   const hasPrevPage = useMemo(() => currentPage !== 1, [currentPage, totalPages])
 
+  const refetchQuizes = () => {
+    const variables = {
+      page: currentPage,
+      search: searchInputValue.trim()
+    }
+  
+    quizesQuery.refetch(variables)
+  }
+
   const handleNextBtnClick = () => {
     setCurrentPage((prev) => prev + 1)
   }
@@ -43,11 +46,15 @@ const Home = () => {
     setCurrentPage((prev) => prev - 1)
   }
 
+  const handleReloadBtnClick = () => {
+    refetchQuizes()
+  }
+
   return <>
     <Box>
       <Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', columnGap: '5px' }}>
           <Input
             sx={{ flex: '0 0 350px' }}
             variant='filled'
@@ -55,30 +62,44 @@ const Home = () => {
             value={searchInputValue}
             onChange={(e: any) => setSearchInputValue(e.target.value)}
           />
+          <Button onClick={handleReloadBtnClick} variant="outline" colorScheme="blue" sx={{  }}>
+            Reload
+          </Button>
           <Pagination
             onPrevBtnClick={handlePrevBtnClick}
             onNextBtnClick={handleNextBtnClick}
             hasNext={hasNextPage}
             hasPrev={hasPrevPage}
+            sx={{ ml: 'auto' }}
           />
         </Box>
         
-        {
-          quizesQuery.loading ? (
-            <Spinner sx={{ margin: '60px auto', display: 'block' }} size="lg" />
-          ) : (
-            <SimpleGrid sx={{ mt: '10px' }} columns={4} spacing='10px'>
-              {
-                quizesQuery.data!.getQuizes.quizes.map((quiz: IQuiz) => (
-                  <QuizCard
-                    key={quiz._id}
-                    quiz={quiz}
-                  />
-                ))
-              }
-            </SimpleGrid>
-          )
-        }
+        <Box sx={{ mt: '30px' }}>
+          {
+            quizesQuery.loading ? (
+              <Spinner sx={{ margin: '0 auto', display: 'block' }} size="lg" />
+            ) : quizesQuery.error ? (
+              <Text colorScheme="red" fontSize="18px" sx={{ textAlign: 'center' }}>
+                Error occured
+              </Text>
+            ) : !quizesQuery.data!.getQuizes.quizes.length ? (
+              <Text fontSize="xl" sx={{ textAlign: 'center' }}>
+                No quizes
+              </Text>
+            ) : (
+              <SimpleGrid columns={4} spacing='10px'>
+                {
+                  quizesQuery.data!.getQuizes.quizes.map((quiz: IQuiz) => (
+                    <QuizCard
+                      key={quiz._id}
+                      quiz={quiz}
+                    />
+                  ))
+                }
+              </SimpleGrid>
+            )
+          }
+        </Box>
 
       </Box>
     </Box>
@@ -87,11 +108,11 @@ const Home = () => {
 
 Home.getLayout = (page: any) => {
   return (
-    <Layout>
-      <AuthProtected>
+    <AuthProtected>
+      <Layout>
         {page}
-      </AuthProtected>
-    </Layout>
+      </Layout>
+    </AuthProtected>
   )
 }
 

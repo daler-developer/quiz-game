@@ -7,15 +7,11 @@ interface IData {
 }
 
 interface IVariables {
-  token
+
 }
 
 export default () => {
-  const query = useQuery<IData, IVariables>(queries.GET_ME, {
-    variables: {
-
-    }
-  })
+  const query = useQuery<IData, IVariables>(queries.GET_ME)
 
   return query
 }

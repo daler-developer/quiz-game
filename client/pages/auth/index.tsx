@@ -1,21 +1,17 @@
-import { Box, Button, chakra, Heading, Input } from "@chakra-ui/react"
+import { Box, Button, Heading, Input } from "@chakra-ui/react"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import * as yup from 'yup'
 import { useEffect } from "react"
 import useQueryParam from "../../hooks/useQueryParam"
-import { gql, useApolloClient, useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import * as mutations from '../../graphql/mutations'
-import * as queries from '../../graphql/queries'
 import useIsLoggedIn from "../../hooks/useIsLoggedIn"
 import Layout from "../../components/Layout"
-import useGetMeLazyQuery from "../../hooks/useGetMeLazyQuery"
+import useLoginMutation from "../../hooks/useLoginMutation"
+import useRegisterMutation from "../../hooks/useRegisterMutation"
 
 type TabType = 'login' | 'register'
 
 const Auth = () => {
-  const [getMe] = useGetMeLazyQuery()
-
   const isLoggedIn = useIsLoggedIn()
 
   useEffect(() => {
@@ -24,18 +20,8 @@ const Auth = () => {
     }
   }, [isLoggedIn])
 
-  const [register] = useMutation(mutations.REGISTER, {
-    onCompleted(data) {
-      localStorage.setItem('auth-token', data.register.token)
-    }
-  })
-
-  const [login] = useMutation(mutations.LOGIN, {
-    onCompleted(data) {
-      localStorage.setItem('auth-token', data.login.token)
-      getMe()
-    },
-  })
+  const [register] = useRegisterMutation()
+  const [login] = useLoginMutation()
 
   const router = useRouter()
 
@@ -47,8 +33,8 @@ const Auth = () => {
       password: ''
     },
     validationSchema: yup.object({
-      username: yup.string().required('required').min(3, 'min 3').max(15, 'max 15'),
-      password: yup.string().required('required').min(3, 'min 3').max(15, 'max 15')
+      username: yup.string().required('required').min(3, 'min 3').max(20, 'max 20'),
+      password: yup.string().required('required').min(3, 'min 3').max(20, 'max 20')
     }),
     async onSubmit({ username, password }) {
       try {
@@ -57,9 +43,6 @@ const Auth = () => {
         } else if (tab === 'login') {
           await login({ variables: { username, password } })
         }
-      } catch (e) {
-        console.log(e)
-        alert('error')
       } finally {
         form.resetForm()
       }
@@ -73,7 +56,7 @@ const Auth = () => {
   }, [])
 
   return (
-    <StyledForm onSubmit={form.handleSubmit}>
+    <Box as="form" onSubmit={form.handleSubmit} sx={{ maxW: '400px', marginInline: 'auto' }}>
       <Heading as='h1' size='lg' textAlign='center'>
         {
           tab === 'login' ? 'Login' : tab === 'register' && 'Register'
@@ -83,7 +66,7 @@ const Auth = () => {
         mt='20px'
         placeholder='Username'
         variant='filled'
-        isInvalid={!!(form.touched.username && form.errors.password)}
+        isInvalid={form.touched.username && !!form.errors.username}
         {...form.getFieldProps('username')}
       />
       <Input
@@ -107,16 +90,9 @@ const Auth = () => {
           </Button>
         )
       }
-    </StyledForm>
+    </Box>
   )
 }
-
-const StyledForm = chakra('form', {
-  baseStyle: {
-    maxW: '400px',
-    marginInline: 'auto'
-  }
-})
 
 Auth.getLayout = (page: any) => {
   return (
