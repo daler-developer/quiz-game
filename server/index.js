@@ -1,9 +1,10 @@
+const path = require('path')
+require('dotenv').config({ path: path.join(__dirname, '.env.local') })
 const http = require('http')
 const express = require('express')
 const { connect } = require('mongoose')
 const apolloServer = require('./graphql/server')
 const graphqlUploadExpress = require('graphql-upload/graphqlUploadExpress.js')
-const path = require('path')
 
 const start = async () => {
   const app = express()
@@ -17,7 +18,7 @@ const start = async () => {
   app.use(graphqlUploadExpress())
   app.use(apolloServer.getMiddleware())
 
-  await connect('mongodb://localhost:27017/quizdb')
+  await connect(process.env.MONGO_URL)
 
   httpServer.listen({ port: 4000 })
   console.log('listening')
