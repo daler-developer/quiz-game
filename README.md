@@ -1,6 +1,6 @@
 # Quiz Game
 
-Welcome to Social Media app! 👋
+Welcome to Quiz Game app! 👋
  
 ![This is an image](/preview.png)
 
