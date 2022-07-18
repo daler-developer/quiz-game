@@ -4,15 +4,23 @@ const errors = require('../../../utils/errors')
 const Joi = require('joi')
 
 const schema = Joi.object({
-
+  quizId: Joi.string().required()
 })
 
-module.exports = async (parent, { quizId }, ctx) => {
+module.exports = async (parent, variables, ctx) => {
   const currentUser = ctx.user
 
   if (!currentUser) {
     throw new errors.NotAuthenticatedError()
   }
+
+  const { error, value } = schema.validate(variables)
+
+  if (error) {
+    throw new errors.ValidationError()
+  }
+
+  const { quizId } = value
   
   quizId = new Types.ObjectId(quizId)
 
@@ -28,5 +36,5 @@ module.exports = async (parent, { quizId }, ctx) => {
 
   await QuizModel.deleteOne({ _id: quizId })
 
-  return 'done'
+  return 'deleted'
 }

@@ -1,5 +1,3 @@
-const getUserResolver = require("./queries/getUserResolver")
-const getUsersResolver = require("./queries/getUsersResolver")
 const registerResolver = require('./mutations/registerResolver')
 const loginResolver = require('./mutations/loginResolver')
 const getMeResolver = require('./queries/getMeResolver')
@@ -15,8 +13,6 @@ const incrementQuizNumTries = require("./mutations/incrementQuizNumTries")
 module.exports = {
   Upload: GraphQLUpload,
   Query: {
-    getUser: getUserResolver,
-    getUsers: getUsersResolver,
     getMe: getMeResolver,
     getQuizes: getQuizesResolver,
     getQuiz: getQuizResolver

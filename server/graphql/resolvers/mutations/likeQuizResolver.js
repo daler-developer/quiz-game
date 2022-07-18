@@ -5,7 +5,6 @@ const errors = require('../../../utils/errors')
 module.exports = async (parent, { quizId }, ctx) => {
   const currentUser = ctx.user
 
-  
   if (!currentUser) {
     throw new errors.NotAuthenticatedError()
   }

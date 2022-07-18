@@ -36,6 +36,6 @@ const quizSchema = new Schema({
     type: Number,
     default: () => 0
   }
-}, { versionKey: false, collection: 'quizes' })
+}, { versionKey: false, collection: 'quizes', validateBeforeSave: false })
 
 module.exports = model('Quiz', quizSchema)

@@ -19,6 +19,7 @@ module.exports = new ApolloServer({
         const decoded = decodeAuthToken(token)
         
         const user = await UserModel.findById(decoded.userId)
+        
         if (user) {
           ctx.user = user
         }

@@ -1,9 +1,28 @@
 const { Types } = require('mongoose')
 const QuizModel = require("../../../models/QuizModel")
 const errors = require('../../../utils/errors')
+const Joi = require('joi')
 
-module.exports = async (parent, { page, search }, ctx) => {
+const schema = Joi.object({
+  page: Joi.number().positive(),
+  search: Joi.string().allow('')
+})
+
+module.exports = async (parent, variables, ctx) => {
   const currentUser = ctx.user
+
+  if (!currentUser) {
+    throw new errors.NotAuthenticatedError()
+  }
+
+  const { value, error } = schema.validate(variables)
+
+  if (error) {
+    console.log(error)
+    throw new errors.ValidationError()
+  }
+
+  const { search, page } = value
 
   const itemsPerPage = 8
   

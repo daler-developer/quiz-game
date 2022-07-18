@@ -11,7 +11,6 @@ const start = async () => {
 
   const httpServer = http.createServer(app)
 
-
   await apolloServer.start()
   
   app.use('/uploads', express.static(path.join(__dirname, 'uploads')))

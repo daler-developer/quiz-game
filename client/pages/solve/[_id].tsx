@@ -2,10 +2,9 @@ import { useQuery } from "@apollo/client"
 import { Box, Text, VStack, chakra, Button, Progress, Spinner } from "@chakra-ui/react"
 import useQueryParam from "../../hooks/useQueryParam"
 import * as queries from '../../graphql/queries'
-import { IQuiz, IQuizQuestionOption } from "../../components/QuizCard"
 import { SyntheticEvent, useEffect, useMemo, useState } from "react"
 import NextLink from 'next/link'
-import useQuizQuery from "../../hooks/useQuizQuery"
+import useGetQuizQuery from "../../hooks/useGetQuizQuery"
 
 export default () => {
   const [progressValue, setProgressValue] = useState(0)
@@ -15,7 +14,7 @@ export default () => {
   
   const _id = useQueryParam('_id') as string
   
-  const quizQuery = useQuizQuery(_id)
+  const quizQuery = useGetQuizQuery(_id)
   
   const currentQuestion = useMemo(
     () => quizQuery.data?.getQuiz.questions[currentQuestionIndex],

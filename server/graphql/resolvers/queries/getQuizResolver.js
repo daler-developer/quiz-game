@@ -3,7 +3,12 @@ const { Types } = require('mongoose')
 const errors = require('../../../utils/errors')
 
 module.exports = async (parent, { _id }, ctx) => {
+  if (!ctx.user) {
+    throw new errors.NotAuthenticatedError()
+  }
+
   _id = new Types.ObjectId(_id)
+
 
   const [quiz] = await QuizModel.aggregate([
     {

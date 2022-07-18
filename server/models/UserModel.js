@@ -9,7 +9,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   }
-}, { versionKey: false })
+}, { versionKey: false, validateBeforeSave: false })
 
 userSchema.statics.findByUsername = function(username) {
   return this.findOne({ username })

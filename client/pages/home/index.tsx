@@ -4,14 +4,14 @@ import Layout from '../../components/Layout'
 import Pagination from '../../components/Pagination'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { IQuiz } from '../../models'
-import useQuizesQuery from '../../hooks/useGetQuizesQuery'
+import useGetQuizesQuery from '../../hooks/useGetQuizesQuery'
 import AuthProtected from '../../components/AuthProtected'
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchInputValue, setSearchInputValue] = useState('')
 
-  const quizesQuery = useQuizesQuery()
+  const quizesQuery = useGetQuizesQuery()
   
   useEffect(() => {
     refetchQuizes()
